@@ -1,9 +1,10 @@
 import { ethers } from 'ethers';
 import React from 'react'
 import styled from 'styled-components';
-import { useProvider } from 'wagmi';
+import { useNetwork, useProvider } from 'wagmi';
 import FullProof from '../app/fullproofAbi.json'
-
+import buffer from 'buffer/' 
+import { CONFIG } from '../app/config';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -27,11 +28,21 @@ const Button = styled.div`
 `;
 
 const Center = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  text-align: center;
 `;
 
+const Text = styled.p`
+  color: #f24438;
+`;
+
+const Link = styled.a`
+  text-decoration: none;
+  color: #f24438;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
 const Input = styled.input`
   border: none;
   color: #dbd3d3;
@@ -61,31 +72,59 @@ const Input = styled.input`
 
 
 const UploadComponent = () => {
-  const provider = useProvider();
+  // const provider = useProvider();
   const [file, setFile] = React.useState(null);
+  const [hash, setHash] = React.useState('');
+  const [txHash, setTxHash] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
   const fileRef = React.useRef<any>(null);
 
-  function onFileChange(e: any) {
+  async function onFileChange(e: any) {
     const file = e.target.files[0];
     console.log(file)
     setFile(file);
-    fileToDataUri(file)
-    .then(dataUri => {
-      console.log(dataUri);
-      const messageBytes = ethers.utils.toUtf8Bytes(dataUri as string);
-      const hash = ethers.utils.keccak256(messageBytes);  
-      console.log(hash); // use this has to commit 
-    })
+    const dataURI = await fileToDataUri(file)
+
+    // get array buffer
+    const res = await fetch(dataURI as string);
+    const blob = await res.blob();
+    const arrayBuffer = await blob.arrayBuffer();
+
+    // get buffer string 
+    const Buffer = buffer.Buffer; 
+    const fileBuffer = Buffer.from(arrayBuffer);
+    const fileBufferString = fileBuffer.toString()
+
+    // build sha3 hash
+    const messageBytes = ethers.utils.toUtf8Bytes(fileBufferString);
+    const hash = ethers.utils.keccak256(messageBytes);  
+    setHash(hash); // use this has to commit 
+
   }
 
   async function handleCommit() {
 
     try {
-        const contract = new ethers.Contract('0x5E16789609423DFf198c6b38547039d3d8932625',FullProof);
-        const withProvider = contract.connect(provider);
-        
-       const a = await withProvider.verify('sds', 'dsd');
-       console.log(a)
+         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+        const contract = new ethers.Contract(CONFIG.full_proof_address ,FullProof, provider);
+        const contractWithSigner = contract.connect(provider.getSigner())
+        // dont do these any stunts plij typescript exists for a purpose 
+
+        const args = [
+          hash,
+          (file as any).name,
+          JSON.stringify({
+            size: (file as any).size,
+            lastModified: (file as any).lastModified
+          })
+        ]
+        setLoading(true);
+        const tx = await contractWithSigner.upload(...args);
+        const receipt = await tx.wait();
+        console.log(receipt)
+        setTxHash(receipt.transactionHash);
+        setLoading(false);
+
     } catch (error) {
         console.log(error)
     }
@@ -95,9 +134,20 @@ const UploadComponent = () => {
     <Container>
       <Center>
         {file?<>
+   
+        {!txHash && 
+        <>
         <i className="fa-solid fa-file-pdf file-icon"></i>
-        <Button onClick={handleCommit}>Commit</Button>
-        <p>Success/Failure Feedback</p>
+        <Button onClick={loading? ()=>{} : handleCommit}>{loading? 'Committing...': 'Commit'}</Button> 
+        </>
+        }
+        {txHash && <>
+        <i className="fa-solid fa-check file-icon"></i>
+        <div>
+        <Link href={`https://ropsten.etherscan.io/tx/${txHash}`}>View on blockexplorer</Link>
+        </div>
+        <Text>File Hash: {hash}</Text>
+        </>}
         </>:
         <>
         <i onClick={()=> fileRef.current.click()} className="fa-solid fa-upload upload-icon"></i>

@@ -54,14 +54,6 @@ const Connect = (props: Props) => {
   }
 
   return ( // plij dont write code like this in your job you will be kicked off :3
-//    connectDataLoading? <p>Loading</p> : accountData? <><p>{accountData.address}</p> <button onClick={disconnectWallet}>
-//      disconnect
-//    </button></>:<button 
-//    onClick={connectWallet}
-// 
-//    Connect
-//  </button>
-
 <Container>
   <Title>
     FullProof
