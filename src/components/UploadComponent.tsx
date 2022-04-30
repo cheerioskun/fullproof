@@ -47,7 +47,7 @@ const Input = styled.input`
   border: none;
   color: #dbd3d3;
   font-size: 3em;
-  width: 300px;
+  width: 400px;
   height: 100px;
 
   :focus {

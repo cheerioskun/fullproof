@@ -6,30 +6,11 @@ type Props = {}
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
+  padding: 1%;
 `;
-const Title = styled.h1`
-    color: #f24438;
-    font-weight: bold;
-    font-size: 3em;
-    margin-left: 0.2em;
-`;
-export const Button = styled.div`
-  background-color: #f24438;
-  height: 100px;
-  width: 200px;
-  display: grid;
-  align-content: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: bold;
 
-  :hover {
-    cursor: pointer;
-    background-color: #f55247;
-  }
-`;
 const Connect = (props: Props) => {
   const [{ data: connectData, loading: connectDataLoading, error }, connect] = useConnect();
   const [{ data: accountData }, disconnect] = useAccount({
@@ -55,12 +36,10 @@ const Connect = (props: Props) => {
 
   return ( // plij dont write code like this in your job you will be kicked off :3
 <Container>
-  <Title>
-    FullProof
-  </Title>
-  <Button onClick={accountData? disconnectWallet: connectWallet}>
+  <div style={{width: "80%"}}></div>
+  <button className="neon-button" onClick={accountData? disconnectWallet: connectWallet}>
       {accountData? getAddress(): 'Connect'}
-  </Button>
+  </button>
 </Container>
   )
 }

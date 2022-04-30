@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #333344;
 }
 
 code {
@@ -12,6 +13,10 @@ code {
     monospace;
 }
 
+@font-face {
+  font-family: 'Hastafi';
+  src: url('./assets/Hastafi_PERSONAL_USE_ONLY.otf');
+}
 
 .file-icon {
   font-size: 10em;
@@ -25,4 +30,65 @@ code {
 
 .upload-icon:hover {
   cursor: pointer;
+}
+
+.logo{
+  font-family: 'Hastafi';
+}
+
+#root-container:before {
+  content: "";
+  
+  background: url('./assets/New\ Project.png') repeat;
+  
+  opacity: 0.7;
+  position: absolute;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+}
+
+#content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+#logo-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+button {
+  background: transparent;
+  border-radius: 20%;
+  padding: 1%;
+  color: white;
+}
+
+.neon-button {
+  text-align: center;
+  color: #000;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.neon-button {
+  background-color: transparent;
+  border: 1px solid #4cbadbc4;
+  border-radius: 50px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .25s ease-in-out;
+  color: #4cbadbc4;
+}
+.neon-button:hover {
+  box-shadow: 0 0 10px 0 #4cbadbc4 inset, 0 0 20px 2px #4cbadbc4;
+  border: 1px solid #4cbadbc4;
 }

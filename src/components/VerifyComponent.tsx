@@ -7,23 +7,8 @@ import FullProofAbi from '../app/fullproofAbi.json'
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   width: 100%;
-  justify-content: center;
-`;
-const Button = styled.div`
-  background-color: #f24438;
-  height: 70px;
-  display: grid;
-  color: white;
-  align-content: center;
-  justify-content: center;
-  font-weight: bold;
-  width: 200px;
-  transition: 0.5s;
-  :hover {
-    cursor: pointer;
-    background-color: #f55247;
-  }
 `;
 
 const Center = styled.div`
@@ -38,7 +23,7 @@ const Input = styled.input`
   color: #dbd3d3;
   font-size: 3em;
   text-align: center;
-  width: 300px;
+  width: 400px;
   height: 100px;
 
   :focus {
@@ -71,9 +56,9 @@ const VerifyComponent = () => {
           <Input type='text' placeholder='enter hash' onChange={(e) => setFileHash(e.target.value)} />
         </div>
         <div style={{display: 'flex', justifyContent: 'center'}}>
-          <Button
+          <button
             onClick={handleVerify}
-          >{loading? 'Verifying...': 'Verify'}</Button>
+          >{loading? 'Verifying...': 'Verify'}</button>
         </div>
         {isVerified && <p>{isVerified}</p>}
       </Center>

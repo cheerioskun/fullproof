@@ -7,27 +7,13 @@ import { WalletLinkConnector } from "wagmi/connectors/walletLink";
 import Connect from './components/Connect';
 import UploadComponent from './components/UploadComponent';
 import VerifyComponent from './components/VerifyComponent';
+import Landing from './components/Landing';
 
 const Footer = styled.div<{commit: boolean}>`
   justify-content: ${props=> props.commit? 'flex-start': 'flex-end'};
   display: flex;
 `;
-export const Button = styled.div`
-  background-color: #f24438;
-  height: 100px;
-  width: 200px;
-  display: grid;
-  align-content: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: bold;
-  flex-direction: row;
-  :hover {
-    cursor: pointer;
-    background-color: #f55247;
-  }
-`;
-const Container = styled.div`
+const RootContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -80,19 +66,23 @@ function App() {
 
   return (
   <Provider autoConnect connectors={connectors}>
-    <Container>
+    <RootContainer id="root-container">
+      {/* Header */}
       <Connect />
-      {/* <UploadFile /> */}
-      {renderComponent()}
+      <div id="content">
+        <Landing />
+        {renderComponent()}
+      </div>
+      
       <Footer commit={screen === SCREEN.COMMIT}>
-        <Button onClick={isCommit()? moveBack:moveCommit}>
+        <button onClick={isCommit()? moveBack:moveCommit}>
             {
               isCommit()? <p><i className="fa-solid fa-arrow-left fa-1x"></i> Back</p>:
               <p>Commit <i className="fa-solid fa-arrow-right fa-1x"></i></p>
             } 
-        </Button>
+        </button>
       </Footer>
-    </Container>
+    </RootContainer>
   </Provider>
   );
 }
