@@ -1,0 +1,9 @@
+{
+    "dev": {
+        "app_function": "main.app",
+        "profile_name": "cheerioskun",
+        "project_name": "lambda",
+        "runtime": "python3.9",
+        "s3_bucket": "zappa-xovogogt3"
+    }
+}
