@@ -8,7 +8,7 @@ const Title = styled.h1`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: bold;
-    font-size: 5em;
+    font-size: 8em;
     margin: auto;
 `;
 

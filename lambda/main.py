@@ -12,6 +12,7 @@ def main():
     resp = requests.get(URL)
     with open('random.jpg', 'wb') as f:
         f.write(resp.content)
+    print(hex(Web3.toInt(Web3.soliditySha3(['bytes'], [resp.content]))))
     return str(int(hash == hex(Web3.toInt(Web3.soliditySha3(['bytes'], [resp.content])))))
 
 if __name__ == "__main__":

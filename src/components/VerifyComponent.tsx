@@ -25,7 +25,10 @@ const Input = styled.input`
   text-align: center;
   width: 400px;
   height: 100px;
-
+  background: transparent;
+  border: 2px solid grey;
+  border-radius: 0.5em;
+  margin: 0.5em;
   :focus {
     outline: none;
   }
