@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import React from 'react'
 import styled from 'styled-components';
 import { CONFIG } from '../app/config';
-import FullProofAbi from '../app/fullproofAbi.json'
+import FullProof from '../app/fullproofAbi.json'
 
 const Container = styled.div`
   display: flex;
@@ -33,40 +33,41 @@ const Input = styled.input`
     outline: none;
   }
 `;
-const VerifyComponent = () => {
+const ReportComponent = () => {
   const [fileHash, setFileHash] = React.useState('');
-  const [fileName, setFileName] = React.useState('');
+  const [fileUri, setFileUri] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const [isVerified, setIsVerified] = React.useState('');
+  const [isReported, setIsReported] = React.useState('');
 
-  async function handleVerify() {
+  async function handleReport() {
     setLoading(true);
     const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-    const contract = new ethers.Contract(CONFIG.full_proof_address, FullProofAbi, provider);
-    const a = await provider.getCode(CONFIG.full_proof_address);
-    console.log(a)
-    const isVerified = await contract.verify(fileHash, fileName);
-    console.log(isVerified)
-    setIsVerified(isVerified? 'Verification Passed': 'Verification Failed');
+    const contract = new ethers.Contract(CONFIG.full_proof_address, FullProof, provider);
+    const contractWithSigner = contract.connect(provider.getSigner());
+    const tx = await contractWithSigner.reveal(fileHash, fileUri);
+    const receipt = await tx.wait();
+    console.log(receipt);
+    setIsReported(receipt? 'Report Txn Confirmed': 'Report Txn Failed');
     setLoading(false);
   }
   return (
     <Container>
       <Center>
         <div></div>
-        <Input type='text' placeholder='enter file name' onChange={(e) => setFileName(e.target.value)} />
+        <Input type='text' placeholder='enter uri' onChange={(e) => setFileUri(e.target.value)} />
         <div>
           <Input type='text' placeholder='enter hash' onChange={(e) => setFileHash(e.target.value)} />
         </div>
         <div style={{display: 'flex', justifyContent: 'center'}}>
           <button
-            onClick={handleVerify}
-          >{loading? 'Verifying...': 'Verify'}</button>
+            className="neon-button xtra-padding"
+            onClick={handleReport}
+          >{loading? 'Reporting..': 'Report/Reveal'}</button>
         </div>
-        {isVerified && <p>{isVerified}</p>}
+        {isReported && <p>{isReported}</p>}
       </Center>
     </Container>
   )
 }
 
-export default VerifyComponent
+export default ReportComponent

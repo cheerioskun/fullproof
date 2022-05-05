@@ -5,13 +5,13 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { WalletLinkConnector } from "wagmi/connectors/walletLink";
 import Connect from './components/Connect';
-import UploadComponent from './components/UploadComponent';
-import VerifyComponent from './components/VerifyComponent';
+import CommitComponent from './components/CommitComponent';
+import ReportComponent from './components/ReportComponent';
 import Landing from './components/Landing';
 
 const Footer = styled.div<{commit: boolean}>`
   justify-content: ${props=> props.commit? 'flex-start': 'flex-end'};
-  display: flex;
+  display:flex
 `;
 const RootContainer = styled.div`
   display: flex;
@@ -54,13 +54,14 @@ function App() {
   } 
 
   function renderComponent() {
+    console.log(screen)
     switch(screen) {
       case SCREEN.COMMIT: 
-        return <UploadComponent />
+        return <CommitComponent />
       case SCREEN.HOME:
-        return <VerifyComponent />
+        return <ReportComponent />
       default:
-        return <VerifyComponent />
+        return <ReportComponent />
     }
   }
 
@@ -75,10 +76,10 @@ function App() {
       </div>
       
       <Footer commit={screen === SCREEN.COMMIT}>
-        <button onClick={isCommit()? moveBack:moveCommit}>
+        <button onClick={isCommit()? moveBack:moveCommit} >
             {
               isCommit()? <p><i className="fa-solid fa-arrow-left fa-1x"></i> Back</p>:
-              <p>Commit <i className="fa-solid fa-arrow-right fa-1x"></i></p>
+              <p className="xtra-padding">Commit <i className="fa-solid fa-arrow-right fa-1x"></i></p>
             } 
         </button>
       </Footer>

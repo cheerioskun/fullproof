@@ -1,4 +1,4 @@
 export const CONFIG = {
-  infura: 'https://ropsten.infura.io/v3/ef6468f72f524d5ea0be6b57dd803d35',
-  full_proof_address: '0x5E16789609423DFf198c6b38547039d3d8932625'
+  infura: 'https://kovan.infura.io/v3/0afa5a295ea140d58734af155354b954',
+  full_proof_address: '0x40E93C0e76B452065f32b16E8043171E35A268a7'
 }

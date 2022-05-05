@@ -66,18 +66,23 @@ code {
 }
 
 button {
-  background: transparent;
-  border-radius: 20%;
+  background: rgb(29, 223, 230);
   padding: 1%;
   color: white;
+  border: none;
+}
+
+.xtra-padding{
+  padding: 5%;
 }
 
 .neon-button {
   text-align: center;
-  color: #000;
+  color: #4cbadbc4;
   text-transform: uppercase;
   cursor: pointer;
   display: inline-block;
+  font-weight:500;
 }
 
 .neon-button {
