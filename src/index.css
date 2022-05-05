@@ -20,12 +20,12 @@ code {
 
 .file-icon {
   font-size: 10em;
-  color: #f24438;
+  color: #4cbadbc4;
 }
 
 .upload-icon {
   font-size: 10em;
-  color: #f24438;
+  color: #4cbadbc4;
 }
 
 .upload-icon:hover {
@@ -81,7 +81,6 @@ button {
   color: #4cbadbc4;
   text-transform: uppercase;
   cursor: pointer;
-  display: inline-block;
   font-weight:500;
 }
 
@@ -96,4 +95,8 @@ button {
 .neon-button:hover {
   box-shadow: 0 0 10px 0 #4cbadbc4 inset, 0 0 20px 2px #4cbadbc4;
   border: 1px solid #4cbadbc4;
+}
+
+i{
+  margin: 0.5em;
 }

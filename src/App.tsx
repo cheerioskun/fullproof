@@ -8,6 +8,7 @@ import Connect from './components/Connect';
 import CommitComponent from './components/CommitComponent';
 import ReportComponent from './components/ReportComponent';
 import Landing from './components/Landing';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Footer = styled.div<{commit: boolean}>`
   justify-content: ${props=> props.commit? 'flex-start': 'flex-end'};
@@ -54,7 +55,7 @@ function App() {
   } 
 
   function renderComponent() {
-    console.log(screen)
+    console.log(screen);
     switch(screen) {
       case SCREEN.COMMIT: 
         return <CommitComponent />

@@ -1,43 +1,30 @@
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import React from "react";
 import styled from "styled-components";
 import { useNetwork, useProvider } from "wagmi";
 import FullProof from "../app/fullproofAbi.json";
 import buffer from "buffer/";
 import { CONFIG } from "../app/config";
+import toast, { Toaster } from "react-hot-toast";
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: center;
 `;
-const Button = styled.div`
-  background-color: #f24438;
-  height: 70px;
-  display: grid;
-  color: white;
-  align-content: center;
-  justify-content: center;
-  font-weight: bold;
-  width: 200px;
-  transition: 0.5s;
-  :hover {
-    cursor: pointer;
-    background-color: #f55247;
-  }
-`;
+
 
 const Center = styled.div`
   text-align: center;
 `;
 
 const Text = styled.p`
-  color: #f24438;
+  color: #4cbadbc4;
 `;
 
 const Link = styled.a`
   text-decoration: none;
-  color: #f24438;
+  color: #4cbadbc4;
 
   :hover {
     cursor: pointer;
@@ -111,6 +98,13 @@ const CommitComponent = () => {
         FullProof,
         provider
       );
+      const filter = {
+        address: CONFIG.full_proof_address,
+        topics: ["0x2ab43125e2cdef6ac6540057e6a588cdb841c5e6ad3b68e82fdbe9a348ce5d8a"],
+      };
+      provider.on(filter, (log, event) => {
+        toast("File Committed!");
+      });
       const contractWithSigner = contract.connect(provider.getSigner());
       const args = [
         hash,
@@ -125,6 +119,7 @@ const CommitComponent = () => {
       const receipt = await tx.wait();
       console.log(receipt);
       setTxHash(receipt.transactionHash);
+      
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -139,14 +134,14 @@ const CommitComponent = () => {
             {!txHash && (
               <>
                 <i className="fa-solid fa-file-pdf file-icon"></i>
-                <Button onClick={loading ? () => {} : handleCommit}>
+                <button className="neon-button xtra-padding" onClick={loading ? () => {} : handleCommit}>
                   {loading ? "Committing..." : "Commit"}
-                </Button>
+                </button>
               </>
             )}
             {txHash && (
               <>
-                <i className="fa-solid fa-check file-icon"></i>
+                <i className="fa-solid fa-check file-icon" onClick={()=>{toast.success("Hi")}}></i>
                 <div>
                   <Link href={`https://kovan.etherscan.io/tx/${txHash}`}>
                     View on blockexplorer
@@ -173,6 +168,30 @@ const CommitComponent = () => {
           </>
         )}
       </Center>
+      <Toaster
+        position="top-left"
+        reverseOrder={false}
+        gutter={16}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          // Define default options
+          className: "",
+          duration: 5000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            theme: {
+              primary: "green",
+              secondary: "black",
+            },
+          },
+        }}
+      />
     </Container>
   );
 };
